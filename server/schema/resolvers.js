@@ -49,6 +49,15 @@ const resolvers = {
       usersData.push(user);
       return user;
     },
+    updateUsername: (_parent, args) => {
+      const user = usersData.find(f => f.id === +args.input.id);
+
+      if (!user)
+        return null;
+
+      user.username = args.input.username;
+      return user;
+    },
   },
 }
 
