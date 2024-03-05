@@ -35,9 +35,19 @@ type User {
   friends: [User!]
 }
 
+type Movie {
+  id: ID!
+  name: String!
+  publicationYear: Int!
+  inTheaters: Boolean!
+}
+
 type Query {
   users: [User!]!
   user(id: ID!): User
+
+  movies: [Movie!]!
+  movie(name: String!): Movie
 }
 
 enum Nationality {
