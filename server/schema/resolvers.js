@@ -30,10 +30,24 @@ const resolvers = {
       return movie || null;
     },
   },
-
   User: {
     favoriteMovies: () => {
       return moviesData.filter(f => f.publicationYear > 2004);
+    },
+  },
+
+  Mutation: {
+    createUser: (_parent, args) => {
+      const user = {
+        id: usersData.length + 1,
+        name: args.input.name,
+        username: args.input.username,
+        age: args.input.age,
+        nationality: args.input.nationality,
+      };
+
+      usersData.push(user);
+      return user;
     },
   },
 }

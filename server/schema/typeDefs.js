@@ -22,7 +22,7 @@ const nationalities = [
   "SERBIA", "BELARUS", "KOSOVO", "NIGERIA", "SAINT_LUCIA", "NETHERLANDS", "LIBERIA",
   "BENIN", "ICELAND", "NORTH_KOREA", "IRAQ", "SOUTH_KOREA", "ZAMBIA", "UNITED_KINGDOM",
   "KUWAIT", "SWAZILAND", "MACEDONIA", "SENEGAL", "IVORY_COAST", "LAOS", "COMOROS",
-  "SWITZERLAND", "MALAWI",
+  "SWITZERLAND", "MALAWI", "OTHER",
 ];
 
 const typeDefs = gql`
@@ -49,6 +49,17 @@ type Query {
 
   movies: [Movie!]!
   movie(name: String!): Movie
+}
+
+input CreateUserInput {
+  name: String!
+  username: String!
+  age: Int!
+  nationality: Nationality = OTHER
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): User!
 }
 
 enum Nationality {
