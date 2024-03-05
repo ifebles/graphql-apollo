@@ -30,6 +30,12 @@ const resolvers = {
       return movie || null;
     },
   },
+
+  User: {
+    favoriteMovies: () => {
+      return moviesData.filter(f => f.publicationYear > 2004);
+    },
+  },
 }
 
 module.exports = { resolvers };
