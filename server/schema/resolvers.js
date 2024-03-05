@@ -58,6 +58,10 @@ const resolvers = {
       user.username = args.input.username;
       return user;
     },
+    deleteUser: (_parent, args) => {
+      usersData = usersData.filter(f => f.id !== +args.id);
+      return null;
+    },
   },
 }
 
