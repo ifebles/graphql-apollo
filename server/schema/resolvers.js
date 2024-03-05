@@ -14,6 +14,10 @@ usersData = usersData.map((m, i) => {
 const resolvers = {
   Query: {
     users: () => usersData,
+    user: (_parent, args) => {
+      const user = usersData.find(f => f.id === +args.id);
+      return user || null;
+    },
   },
 }
 
