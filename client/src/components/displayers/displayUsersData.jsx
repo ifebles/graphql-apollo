@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 
 
 const QUERY_ALL_USERS = gql`
@@ -15,10 +15,47 @@ const QUERY_ALL_USERS = gql`
 `
 
 function DisplayUsersData() {
-  const { loading, data, error } = useQuery(QUERY_ALL_USERS);
+  const [fetchUsers, { loading, data, error, called }] = useLazyQuery(QUERY_ALL_USERS);
 
   if (error)
     console.error(error);
+
+  const postCallContent = loading ? (
+    <div>
+      <h1>Data is loading...</h1>
+    </div>
+  ) : (
+    <table className='table-displayer'>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Nationality</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {!data ? (
+          <tr>
+            <td colSpan={4}>
+              <h2 style={{ color: 'gray' }}>
+                <i>No data to show</i>
+              </h2>
+            </td>
+          </tr>
+        ) :
+          data.users.map(m => (
+            <tr key={m.id}>
+              <td>{m.name}</td>
+              <td>{m.username}</td>
+              <td>{m.age}</td>
+              <td>{m.nationality}</td>
+            </tr>
+          ))}
+      </tbody>
+    </table>
+  );
 
   return (
     <div>
@@ -27,42 +64,12 @@ function DisplayUsersData() {
       <br />
       <br />
 
-      {loading ? (
-        <div>
-          <h1>Data is loading...</h1>
+      {!called ? (
+        <div className="fetch-holder">
+          <button onClick={() => fetchUsers()}>Fetch data</button>
         </div>
-      ) : (
-        <table className='table-displayer'>
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Name</th>
-              <th>Age</th>
-              <th>Nationality</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {!data ? (
-              <tr>
-                <td colSpan={4}>
-                  <h2 style={{ color: 'gray' }}>
-                    <i>No data to show</i>
-                  </h2>
-                </td>
-              </tr>
-            ) :
-              data.users.map(m => (
-                <tr key={m.id}>
-                  <td>{m.name}</td>
-                  <td>{m.username}</td>
-                  <td>{m.age}</td>
-                  <td>{m.nationality}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-      )}
+      ) :
+        postCallContent}
     </div>
   );
 }

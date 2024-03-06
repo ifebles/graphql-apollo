@@ -11,3 +11,14 @@
   background-color: lightgray;
   /* color: white; */
 }
+
+.fetch-holder {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.fetch-holder button {
+  width: 200px;
+  height: 100px;
+  font-size: 18pt;
+}

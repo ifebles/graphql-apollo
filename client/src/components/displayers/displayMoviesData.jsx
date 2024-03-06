@@ -1,5 +1,5 @@
 import React from "react";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useLazyQuery } from "@apollo/client";
 
 import '../../css/displayers.css'
 
@@ -14,7 +14,14 @@ const QUERY_ALL_MOVIES = gql`
 `
 
 export default function DisplayMoviesData() {
-  const { data, loading, error } = useQuery(QUERY_ALL_MOVIES);
+  const [fetchMovies, { data, loading, error, called }] = useLazyQuery(QUERY_ALL_MOVIES);
+
+  if (!called)
+    return (
+      <div className="fetch-holder">
+        <button onClick={() => fetchMovies()}>Fetch movies</button>
+      </div>
+    );
 
   if (loading)
     return (
