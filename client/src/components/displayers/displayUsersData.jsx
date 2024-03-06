@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
+import InputFilter from '../custom/inputFilter';
 
 
 const QUERY_ALL_USERS = gql`
@@ -16,45 +17,63 @@ const QUERY_ALL_USERS = gql`
 
 function DisplayUsersData() {
   const [fetchUsers, { loading, data, error, called }] = useLazyQuery(QUERY_ALL_USERS);
+  const [userFilter, setUserFilter] = useState(null);
 
   if (error)
     console.error(error);
+
+  const users = !userFilter ?
+    data?.users :
+    data?.users.filter(f => {
+      if (!isNaN(userFilter))
+        return f.id === userFilter || f.age === +userFilter;
+
+      const lcFilter = userFilter.toLowerCase().trim();
+
+      return f.username.toLowerCase().includes(lcFilter)
+        || f.name.toLowerCase().includes(lcFilter)
+        || f.nationality.toLowerCase().replace(/_/g, ' ').includes(lcFilter);
+    });
 
   const postCallContent = loading ? (
     <div>
       <h1>Data is loading...</h1>
     </div>
   ) : (
-    <table className='table-displayer'>
-      <thead>
-        <tr>
-          <th>Username</th>
-          <th>Name</th>
-          <th>Age</th>
-          <th>Nationality</th>
-        </tr>
-      </thead>
+    <>
+      <InputFilter label={"Filter users:"} onDelayedChange={setUserFilter} />
 
-      <tbody>
-        {!data ? (
+      <table className='table-displayer'>
+        <thead>
           <tr>
-            <td colSpan={4}>
-              <h2 style={{ color: 'gray' }}>
-                <i>No data to show</i>
-              </h2>
-            </td>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Nationality</th>
           </tr>
-        ) :
-          data.users.map(m => (
-            <tr key={m.id}>
-              <td>{m.name}</td>
-              <td>{m.username}</td>
-              <td>{m.age}</td>
-              <td>{m.nationality}</td>
+        </thead>
+
+        <tbody>
+          {!users ? (
+            <tr>
+              <td colSpan={4}>
+                <h2 style={{ color: 'gray' }}>
+                  <i>No data to show</i>
+                </h2>
+              </td>
             </tr>
-          ))}
-      </tbody>
-    </table>
+          ) :
+            users.map(m => (
+              <tr key={m.id}>
+                <td>{m.username}</td>
+                <td>{m.name}</td>
+                <td>{m.age}</td>
+                <td>{m.nationality}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </>
   );
 
   return (
