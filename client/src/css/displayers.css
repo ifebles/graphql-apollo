@@ -1,0 +1,13 @@
+.vertical-displayer {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.table-displayer {
+  width: 100%;
+}
+
+.table-displayer tbody tr:nth-child(even) {
+  background-color: lightgray;
+  /* color: white; */
+}
