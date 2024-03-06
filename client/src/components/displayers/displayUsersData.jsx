@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { gql, useLazyQuery } from '@apollo/client';
 import InputFilter from '../custom/inputFilter';
 
+import '../../css/displayers/displayers.css';
+
 
 const QUERY_ALL_USERS = gql`
   query GetAllUsers {

@@ -1,0 +1,16 @@
+.single-movie-holder {
+  position: relative;
+}
+
+.theaters-badge {
+  display: inline-block;
+  position: absolute;
+  top: -15px;
+  right: 15%;
+  rotate: 15deg;
+  background-color: firebrick;
+  color: white;
+  padding: 10px;
+  border-radius: 0 10px;
+  font-weight: bold;
+}

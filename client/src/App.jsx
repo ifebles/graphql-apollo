@@ -7,6 +7,8 @@ import {
 import DisplayUsersData from './components/displayers/displayUsersData';
 import DisplayMoviesData from './components/displayers/displayMoviesData';
 import DisplaySingleUser from './components/displayers/displaySingleUser';
+import DisplaySingleMovie from './components/displayers/displaySingleMovie';
+
 
 function App() {
   const client = new ApolloClient({
@@ -28,6 +30,12 @@ function App() {
         <br />
 
         <DisplaySingleUser />
+
+        <br />
+        <hr />
+        <br />
+
+        <DisplaySingleMovie />
 
         <br />
         <hr />
