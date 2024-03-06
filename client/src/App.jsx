@@ -6,6 +6,7 @@ import {
 } from '@apollo/client'
 import DisplayUsersData from './components/displayers/displayUsersData';
 import DisplayMoviesData from './components/displayers/displayMoviesData';
+import DisplaySingleUser from './components/displayers/displaySingleUser';
 
 function App() {
   const client = new ApolloClient({
@@ -22,6 +23,14 @@ function App() {
         <br />
 
         <DisplayUsersData />
+
+        <hr />
+        <br />
+
+        <DisplaySingleUser />
+
+        <br />
+        <hr />
       </div>
     </ApolloProvider>
   );
