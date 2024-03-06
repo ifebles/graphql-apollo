@@ -1,0 +1,33 @@
+.form {
+  display: flex;
+  flex-flow: column;
+}
+
+.form h1 {
+  margin-bottom: 40px;
+}
+
+.form button {
+  padding: 10px;
+  margin-top: 15px;
+  width: 300px;
+  margin: 15px auto;
+}
+
+.form-field {
+  margin: 10px 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.form-field label {
+  font-weight: bold;
+  text-align: right;
+  width: 100px;
+  margin-right: 20px;
+}
+
+.form-field input, .form-field select {
+  border-radius: 5px;
+  width: 200px;
+}
