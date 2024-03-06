@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
 
+import InputFilter from "../custom/inputFilter";
 import '../../css/displayers.css'
 
 
@@ -15,6 +16,7 @@ const QUERY_ALL_MOVIES = gql`
 
 export default function DisplayMoviesData() {
   const [fetchMovies, { data, loading, error, called }] = useLazyQuery(QUERY_ALL_MOVIES);
+  const [movieFilter, setMovieFilter] = useState(null);
 
   if (!called)
     return (
@@ -31,6 +33,11 @@ export default function DisplayMoviesData() {
   if (error)
     console.error(error);
 
+  const movies = movieFilter ?
+    data?.movies
+      .filter(f => f.name.toLowerCase().includes(movieFilter.toLowerCase())) :
+    data?.movies;
+
   return (
     <div>
       <h1>List of movies</h1>
@@ -38,8 +45,10 @@ export default function DisplayMoviesData() {
       <br />
       <br />
 
+      <InputFilter label={"Filter movies:"} onDelayedChange={setMovieFilter} />
+
       <div className="vertical-displayer">
-        {data && data.movies.map(m => (
+        {movies && movies.map(m => (
           <div key={m.id}>
             <h3>Movie name: {m.name}</h3>
             <hr />

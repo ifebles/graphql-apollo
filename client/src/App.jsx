@@ -8,8 +8,6 @@ import DisplayUsersData from './components/displayers/displayUsersData';
 import DisplayMoviesData from './components/displayers/displayMoviesData';
 
 function App() {
-  console.log(process.env )
-
   const client = new ApolloClient({
     cache: new InMemoryCache(),
     uri: process.env.REACT_APP_SERVER_URI,
