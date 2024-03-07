@@ -42,15 +42,30 @@ input UpdateUsernameInput {
   username: String!
 }
 
+input CreateMovieInput {
+  name: String!
+  publicationYear: Int!
+  inTheaters: Boolean!
+  throwError: Boolean
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): User!
   updateUsername(input: UpdateUsernameInput!): User
   deleteUser(id: ID!): User
+
+  createMovie(input: CreateMovieInput!): MovieCreationResult!
 }
 
 enum Nationality {
   ${nationalities.join('\n')}
 }
+
+type ErrorResponse {
+  message: String!
+}
+
+union MovieCreationResult = Movie | ErrorResponse
 `;
 
 module.exports = { typeDefs };

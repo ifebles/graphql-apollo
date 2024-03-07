@@ -51,6 +51,34 @@ const resolvers = {
       usersData = usersData.filter(f => f.id !== +args.id);
       return null;
     },
+
+    createMovie: (_parent, args) => {
+      if (args.input.throwError)
+        return {
+          message: 'An error was requested to be thrown',
+        };
+
+      const movie = {
+        id: moviesData.length + 1,
+        name: args.input.name,
+        publicationYear: args.input.publicationYear,
+        inTheaters: args.input.inTheaters,
+      };
+
+      moviesData.push(movie);
+      return movie;
+    },
+  },
+
+  MovieCreationResult: {
+    __resolveType: obj => {
+      if (obj.id)
+        return 'Movie';
+      if (obj.message)
+        return 'ErrorResponse';
+
+      return null;
+    },
   },
 }
 
