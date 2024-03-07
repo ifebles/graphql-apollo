@@ -88,6 +88,24 @@ const GraphQL = {
           ${GetUserSimpleDetails.def}
         `;
       },
+      get CreateMovie() {
+        const { GetMovieIdentification } = root.Fragments;
+
+        return gql`
+          mutation CreateMovie($input: CreateMovieInput!) {
+            createMovie(input: $input) {
+              ...on Movie {
+                ${GetMovieIdentification.ref}
+              }
+              ...on ErrorResponse {
+                message
+              }
+            }
+          }
+
+          ${GetMovieIdentification.def}
+        `;
+      },
     };
   },
   get Fragments() {

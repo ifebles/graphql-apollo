@@ -9,6 +9,7 @@ import DisplayMoviesData from './components/displayers/displayMoviesData';
 import DisplaySingleUser from './components/displayers/displaySingleUser';
 import DisplaySingleMovie from './components/displayers/displaySingleMovie';
 import CreateUser from './components/forms/createUser';
+import CreateMovie from './components/forms/createMovie';
 
 
 function App() {
@@ -43,6 +44,11 @@ function App() {
         <br />
 
         <CreateUser />
+
+        <hr />
+        <br />
+
+        <CreateMovie />
       </div>
     </ApolloProvider>
   );
