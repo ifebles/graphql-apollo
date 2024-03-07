@@ -1,8 +1,14 @@
-import React, { useState } from "react";
-import { gql, useMutation } from "@apollo/client";
+import React, { useEffect, useState } from "react";
+import { gql, useLazyQuery, useMutation } from "@apollo/client";
 
 import "../../css/forms/index.css";
 
+
+const QUERY_ALL_NATIONALITIES = gql`
+  query GetAllNationalities {
+    nationalities
+  }
+`
 
 const CREATE_USER_MUTATION = gql`
   mutation CreateUser($input: CreateUserInput!) {
@@ -16,34 +22,20 @@ const CREATE_USER_MUTATION = gql`
   }
 `;
 
-const nationalities = [
-  "UNITED_STATES", "ESTONIA", "RUSSIA", "CANADA", "CZECH_REPUBLIC", "CAMEROON", "CHINA",
-  "ISLE_OF_MAN", "PHILIPPINES", "FINLAND", "MARSHALL_ISLANDS", "KAZAKHSTAN", "LATVIA",
-  "INDONESIA", "GEORGIA", "POLAND", "BRAZIL", "JAPAN", "BHUTAN", "HUNGARY", "ETHIOPIA",
-  "GREECE", "ARGENTINA", "EL_SALVADOR", "BOLIVIA", "ALBANIA", "PERU", "CROATIA",
-  "SAUDI_ARABIA", "THAILAND", "FRANCE", "PORTUGAL", "DENMARK", "ARMENIA", "KIRIBATI",
-  "VIETNAM", "DOMINICAN_REPUBLIC", "COLOMBIA", "UKRAINE", "AUSTRALIA", "CHILE",
-  "AZERBAIJAN", "NORWAY", "BULGARIA", "AFGHANISTAN", "SWEDEN", "UZBEKISTAN", "PAKISTAN",
-  "MOROCCO", "SYRIA", "GABON", "SLOVENIA", "ECUADOR", "JAMAICA", "TAJIKISTAN",
-  "BONAIRE_SAINT_EUSTATIUS_AND_SABA", "MEXICO", "PARAGUAY", "SOUTH_AFRICA",
-  "LITHUANIA", "CYPRUS", "MALI", "BOSNIA_AND_HERZEGOVINA", "GUATEMALA", "TANZANIA",
-  "IRAN", "MONGOLIA", "GAMBIA", "MYANMAR", "EGYPT", "KENYA", "TURKMENISTAN", "REUNION",
-  "MADAGASCAR", "NEW_ZEALAND", "NIGER", "MAURITIUS", "GERMANY", "HONDURAS",
-  "BANGLADESH", "IRELAND", "ISRAEL", "DEMOCRATIC_REPUBLIC_OF_THE_CONGO", "URUGUAY",
-  "COSTA_RICA", "LEBANON", "PANAMA", "LUXEMBOURG", "NEPAL", "CUBA",
-  "UNITED_ARAB_EMIRATES", "YEMEN", "ITALY", "TUNISIA", "ZIMBABWE",
-  "FRENCH_SOUTHERN_TERRITORIES", "CAPE_VERDE", "PALESTINIAN_TERRITORY", "LIBYA",
-  "SOMALIA", "CENTRAL_AFRICAN_REPUBLIC", "MALAYSIA", "ALAND_ISLANDS",
-  "TURKS_AND_CAICOS_ISLANDS", "NAMIBIA", "KYRGYZSTAN", "SAO_TOME_AND_PRINCIPE", "CHAD",
-  "SERBIA", "BELARUS", "KOSOVO", "NIGERIA", "SAINT_LUCIA", "NETHERLANDS", "LIBERIA",
-  "BENIN", "ICELAND", "NORTH_KOREA", "IRAQ", "SOUTH_KOREA", "ZAMBIA", "UNITED_KINGDOM",
-  "KUWAIT", "SWAZILAND", "MACEDONIA", "SENEGAL", "IVORY_COAST", "LAOS", "COMOROS",
-  "SWITZERLAND", "MALAWI",
-].sort().concat("OTHER");
-
 export default function CreateUser() {
   const [fields, setFields] = useState({});
+  const [nationalities, setNationalities] = useState([]);
+  const [getAllNationalities] = useLazyQuery(QUERY_ALL_NATIONALITIES);
   const [createUserMutation, { data, loading, error }] = useMutation(CREATE_USER_MUTATION);
+
+  useEffect(() => {
+    getAllNationalities({
+      onCompleted: data => setNationalities(data.nationalities),
+      onError: console.error,
+    });
+  }, [getAllNationalities]);
+
+  ///
 
   const onFieldChange = ev => setFields({
     ...fields,
@@ -112,7 +104,7 @@ export default function CreateUser() {
       {data?.createUser && (
         <div key={data.createUser.id}>
           <h2>Last created User</h2>
-          
+
           <h3>ID: {data.createUser.id}</h3>
           <h3>Username: {data.createUser.username}</h3>
           <h3>Name: {data.createUser.name}</h3>
