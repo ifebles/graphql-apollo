@@ -1,32 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { gql, useLazyQuery, useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 
 import "../../css/forms/index.css";
+import GraphQL from "../../utils/graphql";
 
-
-const QUERY_ALL_NATIONALITIES = gql`
-  query GetAllNationalities {
-    nationalities
-  }
-`
-
-const CREATE_USER_MUTATION = gql`
-  mutation CreateUser($input: CreateUserInput!) {
-    createUser(input: $input) {
-      id
-      name
-      age
-      username
-      nationality
-    }
-  }
-`;
 
 export default function CreateUser() {
   const [fields, setFields] = useState({});
   const [nationalities, setNationalities] = useState([]);
-  const [getAllNationalities] = useLazyQuery(QUERY_ALL_NATIONALITIES);
-  const [createUserMutation, { data, loading, error }] = useMutation(CREATE_USER_MUTATION);
+  const [getAllNationalities] = useLazyQuery(GraphQL.Query.GetAllNationalities);
+  const [createUserMutation, { data, loading, error }] = useMutation(GraphQL.Mutation.CreateUser);
 
   useEffect(() => {
     getAllNationalities({

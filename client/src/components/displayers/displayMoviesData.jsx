@@ -1,21 +1,13 @@
 import React, { useState } from "react";
-import { gql, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 
 import InputFilter from "../custom/inputFilter";
 import '../../css/displayers/displayers.css';
+import GraphQL from "../../utils/graphql";
 
-
-const QUERY_ALL_MOVIES = gql`
-  query GetAllMovies {
-    movies {
-      id
-      name
-    }
-  }
-`
 
 export default function DisplayMoviesData() {
-  const [fetchMovies, { data, loading, error, called, refetch }] = useLazyQuery(QUERY_ALL_MOVIES);
+  const [fetchMovies, { data, loading, error, called, refetch }] = useLazyQuery(GraphQL.Query.GetAllMovies);
   const [movieFilter, setMovieFilter] = useState(null);
 
   if (!called)

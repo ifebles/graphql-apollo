@@ -1,25 +1,14 @@
 import React, { useState } from 'react';
-import { gql, useLazyQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import InputFilter from '../custom/inputFilter';
 
 import '../../css/displayers/displayers.css';
+import GraphQL from "../../utils/graphql";
 
-
-const QUERY_ALL_USERS = gql`
-  query GetAllUsers {
-    users {
-      id
-      name
-      age
-      username
-      nationality
-    }
-  }
-`
 
 function DisplayUsersData() {
-  const [fetchUsers, { loading, data, error, called, refetch }] = useLazyQuery(QUERY_ALL_USERS);
-  const [userFilter, setUserFilter] = useState(null);
+  const [fetchUsers, { loading, data, error, called, refetch }] = useLazyQuery(GraphQL.Query.GetAllUsers);
+  const [userFilter, setUserFilter] = useState(null); 
 
   if (error)
     console.error(error);

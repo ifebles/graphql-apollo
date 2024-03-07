@@ -1,22 +1,12 @@
 import React, { useState } from "react";
-import { gql, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import InputFilter from "../custom/inputFilter";
+import GraphQL from "../../utils/graphql";
 
-
-const QUERY_SINGLE_USER = gql`
-  query GetSingleUser($userID: ID!) {
-    user(id: $userID) {
-      name
-      username
-      age
-      nationality
-    }
-  }
-`
 
 export default function DisplaySingleUser() {
   const [userID, setUserID] = useState(null);
-  const [fetchSingleUser, { data, error, loading }] = useLazyQuery(QUERY_SINGLE_USER);
+  const [fetchSingleUser, { data, error, loading }] = useLazyQuery(GraphQL.Query.GetSingleUser);
 
   if (error)
     console.error(error);

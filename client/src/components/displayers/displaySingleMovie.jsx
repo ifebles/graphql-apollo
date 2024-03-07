@@ -1,24 +1,14 @@
 import React, { useState } from "react";
-import { gql, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import InputFilter from "../custom/inputFilter";
 
 import "../../css/displayers/displaySingleMovie.css";
+import GraphQL from "../../utils/graphql";
 
-
-const QUERY_SINGLE_MOVIE = gql`
-  query GetSingleMovie($name: String!) {
-    movie(name: $name) {
-      id
-      name
-      publicationYear
-      inTheaters
-    }
-  }
-`
 
 export default function DisplaySingleMovie() {
   const [movieName, setMovieName] = useState(null);
-  const [fetchSingleMovie, { data, error, loading }] = useLazyQuery(QUERY_SINGLE_MOVIE);
+  const [fetchSingleMovie, { data, error, loading }] = useLazyQuery(GraphQL.Query.GetSingleMovie);
 
   if (error)
     console.error(error);
