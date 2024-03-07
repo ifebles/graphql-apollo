@@ -7,6 +7,9 @@ const { resolvers } = require("./schema/resolvers");
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ req }) => ({
+    req,
+  }),
 });
 
 server.listen()
