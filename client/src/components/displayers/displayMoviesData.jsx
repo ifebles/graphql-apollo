@@ -15,7 +15,7 @@ const QUERY_ALL_MOVIES = gql`
 `
 
 export default function DisplayMoviesData() {
-  const [fetchMovies, { data, loading, error, called }] = useLazyQuery(QUERY_ALL_MOVIES);
+  const [fetchMovies, { data, loading, error, called, refetch }] = useLazyQuery(QUERY_ALL_MOVIES);
   const [movieFilter, setMovieFilter] = useState(null);
 
   if (!called)
@@ -45,7 +45,10 @@ export default function DisplayMoviesData() {
       <br />
       <br />
 
-      <button className='refresh-btn' onClick={() => fetchMovies({fetchPolicy: 'cache-and-network'})}>Refresh</button>
+      <button className='refresh-btn' onClick={() => refetch()}>
+        Refresh
+      </button>
+
       <InputFilter label={"Filter movies:"} onDelayedChange={setMovieFilter} />
 
       <div className="vertical-displayer">

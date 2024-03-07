@@ -18,7 +18,7 @@ const QUERY_ALL_USERS = gql`
 `
 
 function DisplayUsersData() {
-  const [fetchUsers, { loading, data, error, called }] = useLazyQuery(QUERY_ALL_USERS);
+  const [fetchUsers, { loading, data, error, called, refetch }] = useLazyQuery(QUERY_ALL_USERS);
   const [userFilter, setUserFilter] = useState(null);
 
   if (error)
@@ -43,7 +43,10 @@ function DisplayUsersData() {
     </div>
   ) : (
     <>
-      <button className='refresh-btn' onClick={() => fetchUsers({fetchPolicy: 'cache-and-network'})}>Refresh</button>
+      <button className='refresh-btn' onClick={() => refetch()}>
+        Refresh
+      </button>
+
       <InputFilter label={"Filter users:"} onDelayedChange={setUserFilter} />
 
       <table className='table-displayer'>
