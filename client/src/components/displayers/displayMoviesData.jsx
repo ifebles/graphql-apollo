@@ -45,6 +45,7 @@ export default function DisplayMoviesData() {
       <br />
       <br />
 
+      <button className='refresh-btn' onClick={() => fetchMovies({fetchPolicy: 'cache-and-network'})}>Refresh</button>
       <InputFilter label={"Filter movies:"} onDelayedChange={setMovieFilter} />
 
       <div className="vertical-displayer">

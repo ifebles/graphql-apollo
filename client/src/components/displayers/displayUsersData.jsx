@@ -43,6 +43,7 @@ function DisplayUsersData() {
     </div>
   ) : (
     <>
+      <button className='refresh-btn' onClick={() => fetchUsers({fetchPolicy: 'cache-and-network'})}>Refresh</button>
       <InputFilter label={"Filter users:"} onDelayedChange={setUserFilter} />
 
       <table className='table-displayer'>

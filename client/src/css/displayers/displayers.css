@@ -1,3 +1,7 @@
+.refresh-btn {
+  padding: 10px 20px;
+}
+
 .vertical-displayer {
   max-height: 200px;
   overflow-y: auto;
